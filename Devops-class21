@@ -1,0 +1,152 @@
+                        Saturday, September 23, 2023
+           USERS AND GROUP MANAGEMENT IN LINUX 
+PRACTICE ENVIRONMENT
+
+1.	LOCAL UBUNTU 
+2.	REMOTE UBUNTU
+User management  Important Directories
+1.	/etc/passwd    [ where details of users are stored ] 
+               #     cat /etc/shadow 
+#password and passwd 
+2.	/etc/shadow    [ the hash password ] [ must be access with admin privileges
+  #    sudo cat /etc/shadow 
+      CREATING USERS/ADDING USERS ON THE LINUX SERVER
+1.	Only root users can create or add users on a system = because they have super power
+2.	Root users assume super power with the help of the [ sudo ] 
+#  sudo apt install ncal    [ the calender ]
+# sudo apt install tree 
+# sudo apt  update ] 	
+3.	How to Create Users on a system. 
+a.	Create a user called felix   and assisgn  password
+#   sudo  useradd   [username ] 
+#   sudo  useradd    felix     [  and supply the required information ] 
+
+NB:  The useradd create a user with no home directory
+#   sudo  adduser  felixx      [ and supply the required information ] 
+ 
+b.	Login using the felixx     password
+To access another user’s account, we need the user’ password and permissions to do so. 
+  Switching to another users account. 
+The [su ]   [ switch user command] 
+  #  su      -   felixx 
+
+ 
+
+c.	Loggout from  felixx account
+#  exit 
+d.	 Assign Felix new password
+            # sudo passwd  felixx 
+
+ 
+	
+3.	Create a user called Bantar  and add a comment/description to his as “new hr manager’”
+    # sudo   adduser  -c “New Account Manager”  bantar	
+4.	Create another user  called mumy and assign new password
+  #    sudo adduser   mummy 
+#      sudo passwd  mummy  [ to assign new password] 
+
+ User and Group Management on Remote Servers   - AWS EC2 INSTANCE
+1.	 Access your aws account and create a new ubuntu server. 
+ 
+
+Our Instance property: 
+A.	The instance ip address : 18.118.146.21
+B.	PUBLIC IPV4 DNS: ec2-18-118-146-21.us-east-2.compute.amazonaws.com
+C.	The keypair : sept23 
+D.	Default user:  ubuntu 
+
+
+2.	Create a new keypair call sept23 
+ 
+
+
+3.	Launch and access the server 
+   Ssh client  =   local ubuntu 
+1.	Open the local ubuntu and 
+a.	Create a directory called .ssh or if it exist, then cd into the directory
+#  mkdir .ssh
+#   cd   .ssh 
+
+
+b.	Create a file called sept23.pem 
+#  touch   sept23.pem
+c.	Open the  content of the  file sept23.pem 
+d.	Copy the content of the pem in your download folder and paste in the sept23.pem 
+e.	Change/protect the file with [ chmod 400 setp23.pem] 
+2.	Copy the content of the key sept23 to the local ubuntu
+3.	Login into the server 
+#  ssh   -I      ~/.ssh/sept23.pem  ubuntu@
+4.	Enable password authentication
+a.	#  sudo vi   /etc/ssh/sshd_config
+b.	# change line 57 from no to yes 
+c.	Restart the ssh service 
+
+4.	Create users and grant them password authentication. 
+a.	Grant access to the following users 
+1.	Banta
+2.	Dob 
+ # sudo adduser dob   [ password 2023] 
+#    ssh  dob@18.118.146.21 
+3.	Babila 
+#  ssh  bila@18.118.146.21
+
+4.	Mesa 
+#      ssh    mesa@18.118.146.21   
+5.	Isaac 
+# ssh isaac@18.118.146.21    [ 2024] 
+6.	Listing all users on the system 
+#  ls /home 
+7.	Remote login as the user banta
+  #  ssh  banta@18.118.146.21 
+
+How to delete user account on the system
+1.	The userdel  command. 
+Delete the user account for the following
+1.	John 
+# sudo userdel  john 
+2.	Daniel 
+#   sudo userdel Daniel 
+
+How to lock and unlock a user account. 
+Lock the following accounts so they cant login.
+# sudo passwd  -l   dob 
+# Unlock Dobgima’s account 
+
+ #   sudo passwd     -u  dob 
+
+
+How to change a username  [ the usermod command ] 
+a.	Change dobgima’s username to john 
+#   sudo usermod  -l  “john”   dob 
+
+
+GROUP MANAGEMENT IN LINUX  
+This section covers how to create groups and add users to the group.
+a.	The       /etc/group file       [ all group information ] 
+#  sudo cat /etc/group 
+b.	The       /etc/gshadow         [ contains password hash ] 
+ # sudo  cat  /etc/gshadow
+
+c.	How to create groups  with the [ groupadd command] 
+# sudo groupadd devops 
+# sudo groupadd   employee 
+
+ 
+
+How to add password to the group with the [ gpasswd]  command
+1.	 #     sudo gpasswd    devops 
+2.	 #      sudo gpasswd   employees 
+3.	  #     sudo gpasswd    finance-team 
+How to remove password from group 
+  #   sudo gpasswd  -r    devops 
+#     sudo gpasswd   -r    employees 
+   How to  create a group with specific   GID   [ group id ] 
+e.g: 
+#            groupadd     -g    1200   manager 
+#            groupadd   -g    1500    students 
+#            groupadd   -g      1210    staff 
+# verify groups with the following command. 
+
+#  cat /etc/group 
+
+
